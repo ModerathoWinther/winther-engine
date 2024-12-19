@@ -14,15 +14,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${BASE_OUTPUT_DIR}")
 
 # Library paths
 
-set(SDL3_DIR "C:/SDL3-3.1.3/x86_64-w64-mingw32/lib/cmake/SDL3")
-set(spdlog_DIR "C:/spdlog-1.x/build1")
+set(SDL3_DIR "C:/SDL3-3.1.6/x86_64-w64-mingw32/lib/cmake/SDL3")
+set(spdlog_DIR "C:/spdlog-1.xx/build1")
+
 
 if(NOT TARGET SDL3)
     find_package(SDL3)
-
 endif()
+
 if(NOT TARGET spdlog)
-    # Stand-alone build
     find_package(spdlog REQUIRED)
 endif()
 
@@ -37,7 +37,12 @@ add_executable(WINTHER_SRC
         include/Winther.h
         include/Entrypoint.h
         include/Client.h
-)
+        src/TextureManager.cpp
+        include/TextureManager.h
+        src/EntityManager.cpp
+        include/EntityManager.h
+        include/Entity.cpp
+        include/Entity.h)
 
 target_include_directories(WINTHER_SRC PUBLIC
         include)
@@ -51,16 +56,24 @@ add_library(WINTHER_LIB SHARED
         include/Winther.h
         include/Entrypoint.h
         ${WINTHER_SRC}
-        include/Client.h)
+        include/Client.h
+        src/TextureManager.cpp
+        include/TextureManager.h
+        src/EntityManager.cpp
+        include/EntityManager.h
+        include/Entity.cpp
+        include/Entity.h)
+
 
 target_include_directories(WINTHER_LIB PUBLIC
         include)
 
-target_link_libraries(WINTHER_SRC
+target_link_libraries(WINTHER_SRC PUBLIC
         SDL3::SDL3
-        spdlog::spdlog)
+        spdlog::spdlog
+        WINTHER_LIB)
 
-target_link_libraries(WINTHER_LIB
+target_link_libraries(WINTHER_LIB PUBLIC
         SDL3::SDL3
         ${SDL3_LIBRARIES}
         spdlog::spdlog)

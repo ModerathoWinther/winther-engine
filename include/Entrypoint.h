@@ -12,9 +12,9 @@
 
 #include <Engine.h>
 
-namespace Winther {
+namespace Winther
+{
 
 
-
-}
+} // Winther
 #endif //CPROG_WINTHER_ENGINE_ENTRYPOINT_H
